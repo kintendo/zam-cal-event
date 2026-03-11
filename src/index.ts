@@ -84,19 +84,7 @@ const handleRun = async (request: Request): Promise<Response> => {
 		return Response.json({ error: message }, { status: 400 });
 	}
 
-	const safeFilename =
-		parsed.data.eventName
-			.replace(/[^a-zA-Z0-9\-_ ]/g, "")
-			.replace(/\s+/g, "-")
-			.substring(0, 50) || "event";
-
-	return new Response(icsContent, {
-		status: 200,
-		headers: {
-			"Content-Type": "text/calendar; charset=utf-8",
-			"Content-Disposition": `attachment; filename="${safeFilename}.ics"`,
-		},
-	});
+	return Response.json({ icsFile: icsContent });
 };
 
 const buildRunContract = (baseUrl: string) => ({
